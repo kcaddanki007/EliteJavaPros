@@ -1,0 +1,257 @@
+
+/* 
+Write a MongoDB query to display the students details 
+who are studying in ECE branch
+
+Sample Students Document:
+-------------------------
+{"name":"Suresh","rollno":"041","branch":"ECE"}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+e.g., To display all the douments from 'students' collection
+    => printjson( db.students.find())
+    db => databse connection object
+    students => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+printjson(db.students.find({branch:"ECE"}));
+
+
+
+
+
+/* 
+Write a MongoDB query all documents in the inventory collection 
+where the status equals "A" and qty is less than 30.
+.
+Sample Document:
+----------------
+{ 
+	"item": "journal", 
+	"qty": 25, 
+	"size": { "h": 14, "w": 21, "uom": "cm" }, 
+	"status": "A" 
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.inventory.find())
+    Where,
+    db => databse connection object
+    inventory => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+printjson(db.inventory.find({ $and: [ {status:"A"}, {qty:{$lt:30}}]}));
+
+
+
+
+
+
+/* 
+Wrrite a MongoDB Query to display all documents from the inventory collection, 
+where the status equals "A" and either qty is less than 30 or item starts with
+the letter p.
+.
+Sample Document:
+----------------
+{ 
+	"item": "journal", 
+	"qty": 25, 
+	"size": { "h": 14, "w": 21, "uom": "cm" }, 
+	"status": "A" 
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.inventory.find())
+    Where,
+    db => databse connection object
+    inventory => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+printjson(db.inventory.find({
+    "status":"A",
+    $or:[{qty:{$lt:30}},{"item":/p.*/}]
+}));
+
+
+
+
+/* 
+Write a MongoDB query to display all documents from inventory collection,
+where the height(h) of the item is less than 15 and the unit of measurement(uom) 
+is "cm" and the status field equals "A".
+.
+Sample Document:
+----------------
+{ 
+	"item": "journal",
+	"qty": 25,
+	"size": { "h": 14, "w": 21, "uom": "cm" },
+	"status": "A"
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.inventory.find())
+    Where,
+    db => databse connection object
+    inventory => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+printjson(db.inventory.find({"size.h":{$lt:15},"size.uom": "cm",status:"A"}))
+
+
+
+
+/* 
+Write a MongoDB Query to get all the documents from inventory collection,
+where the field tags value is an array with exactly two elements "red" 
+and "blank", the dim_cm array contains elements that in some combination 
+satisfy the query conditions; e.g., one element can satisfy the greater 
+than 15 condition and another element can satisfy the less than 20 condition,
+or a single element can satisfy both.
+.
+Sample Document:
+----------------
+{ 
+	item: "journal", 
+	qty: 25, 
+	tags: ["blank", "red"], 
+	dim_cm: [ 14, 21 ] 
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.inventory.find())
+    Where,
+    db => databse connection object
+    inventory => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+// Write the query here.
+   printjson( db.inventory.find(
+       { tags:{$all:["blank","red"]} ,
+           dim_cm:{$gte: 15, $lt: 20}
+       }
+       ))
+
+
+
+
+/* 
+Write a MongoDB Query to get all the documents from inventory collection,
+where the dim_cm array contains at least one element that is both 
+greater than 22 and less than 30.
+.
+Sample Document:
+----------------
+{ 
+	item: "journal", 
+	qty: 25, 
+	tags: ["blank", "red"], 
+	dim_cm: [ 14, 21 ] 
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.inventory.find())
+    Where,
+    db => databse connection object
+    inventory => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+// Write the query here.
+   printjson( db.inventory.find(
+       { dim_cm: { $elemMatch: { $gte: 22, $lt: 30 } } }
+       ))
+	   
+	  
+
+
+/* 
+Write a MongoDB query to Count the number of orders in the collection "orders"
+with the field 'date' greater than "15-03-2021".
+.
+Sample Document:
+----------------
+{
+	"_id": 0,
+	"name": "Pepperoni",
+	"size": "small",
+	"price": 19,
+	"quantity": 10,
+	"date": "2021-03-13T08:14:30Z"
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.orders.find())
+    Where,
+    db => databse connection object
+    orders => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+
+printjson(db.orders.countDocuments({ "date": { $gt: new Date('03/15/2021') } }))
+
+
+
+
+
+
+
+/* 
+Write a MongoDB query on "orders" to find and print the '_id' and 
+'totalQuantity' return the total order quantity of medium size pizzas 
+grouped by pizza name.
+.
+Sample Document:
+----------------
+{
+	"_id": 0,
+	"name": "Pepperoni",
+	"size": "small",
+	"price": 19,
+	"quantity": 10,
+	"date": "2021-03-13T08:14:30Z"
+}
+
+Note: To write the query, use printjson() method from 'mongosh' module
+    e.g., To display all the douments from 'students' collection
+        => printjson( db.orders.find())
+    Where,
+    db => databse connection object
+    orders => collections name
+    find => method to retrieve  all the docuemnts
+
+*/
+
+// Write the query here.
+printjson(db.orders.aggregate(
+    {$match:{size:"medium"}},
+    {$group:{_id:"$name", "totalQuantity": {$sum:"$quantity"}}}
+    ));
+
+
+
+
+

@@ -1,0 +1,198 @@
+/*
+Write a SQL query to display the name(s) of the employee(s) who are getiing 
+second highest salary.
+
+Sample Output:
+--------------
+ename                                                                                                                   
+FORD                                                                                                                    
+                                                                                                   
+
+*/
+select ename from emp where sal = (select max(sal) from emp where sal < (select max(sal) from emp));
+
+
+
+
+/*
+Write an SQL query to display the job groups having total salary greater than 
+the maximum salary of managers.
+
+Sample Output:
+--------------
+job     sum(sal)                                                                                                        
+ANALYST 6000.00
+
+*/
+/*select * from emp;*/
+select job,sum(sal) from emp group by job having sum(sal) > (select max(sal) from emp where job="MANAGER");
+
+
+
+/*
+Write an SQL query to Display the department name(s), where the dept name is 
+equal to 'no of employees - 2' in any other department.
+
+Sample Output:
+-------------
+dname                                                                                                                   
+Research                                                                                                                
+
+*/
+select dname from dept d where length(dname)+2 in (select count(*) from emp e where e.deptno<>d.deptno group by e.deptno);
+
+
+/*
+Write an SQL query to list out(ename,mgr,and sal) the lowest paid employees 
+working for each manager,exclude any employee whose salary is less than 1000 
+sort the output by salary.
+
+Sample Output:
+-------------
+ename   mgr     sal                                                                                                     
+FORD    7782    1300.00                                                                                                 
+SCOTT   7566    3000.00                                                                                                 
+
+*/
+/*select * from emp;
+select * from dept;*/
+select e.ename, e.mgr, e.sal from emp as e where e.sal>=1000 and e.sal in (select min(sal) from emp where mgr=e.mgr) order by e.sal;
+
+
+/*
+Write an SQL query to display the name of department where highest number of 
+employees are working.
+
+Sample Output:
+-------------
+dname                                                                                                                   
+Research
+
+*/
+select dname from dept where deptno in (select deptno from emp group by deptno having count(*) in (select max(mycount) from (select count(*) mycount from emp group by deptno) t));
+
+
+/*
+Write an SQL query to display all the details of managers who are not working 
+under the president.
+
+Sample Output:
+-------------
+empno   ename   job     mgr     hiredate        sal     comm    deptno                                                  
+7902    FORD    ANALYST 7566    1997-12-05      3000.00 NULL    20 
+
+*/
+select * from emp where empno in (select mgr from emp) and mgr not in (select empno from emp where job = 'PRESIDENT');
+
+
+
+
+
+/*
+Write an SQL query to display the names of departments, in which atleast 
+3 employees are working in that department.
+
+Sample Output:
+-------------
+dname           count(*)                                                                                                        
+Accounting        3                                                                                                       
+Research          6                                                                                                       
+Sales             3 
+
+*/
+select * from emp;
+select * from dept;
+
+select dname,count(*) from dept 
+inner join emp ON dept.deptno = emp.deptno
+group by dname having count(dname)>=3;
+
+
+
+
+/*
+Write an SQL query to display the name, job, salary of the employees in the 
+department with the highest average salary among all the departments.
+
+Sample Output:
+-------------
+ename   job     sal                                                                                                     
+MARTIN  SALESMAN        1250.00  
+
+*/
+select ename,job,sal from emp where deptno >= all 
+((select deptno from emp group by deptno having avg(sal) = 
+(select max(avg(sal)) from 
+(select avg(sal) from emp e group by deptno) as average)));
+
+
+/*
+Write an SQL query to display the manager name(s) and count of employees 
+working under that manager, who is having maximum number of employeess 
+among all the managers.
+
+Sample Output:
+-------------
+ename   count                                                                                                           
+BLAKE   5                                                                                                               
+
+*/
+select m.ename,count(*) from emp e,emp m where e.mgr=m.empno 
+group by m.ename having count(*) = 
+(select max(c) from (select count(*) c from emp group by mgr)t);
+
+
+
+/*
+Write an SQL query to find the all the details of the employees who earn the
+same salary as the minimum salary for all departments by ascending order
+
+Sample Output:
+-------------
+empno   ename   job       mgr     hiredate        sal      comm     deptno                                                  
+7369    SMITH   CLERK     7902    1993-06-13      800.00   0.00     20                                                      
+7521    ALLEN   SALESMAN  7698    1996-03-26      1250.00  500.00   30                                              
+7839    KEVIN   PRESIDENT NULL    1990-06-09      5000.00  0.00     40
+
+*/
+select * from emp where sal = any(select min(sal) from emp group by job) order by sal;
+
+
+
+
+/*
+Write an SQL query to display the employee number and name of employee working 
+as CLERK and earning highest salary among CLERKS.
+
+Sample Output:
+-------------
+empno   ename                                                                                                           
+7934    FORD 
+
+*/
+select empno, ename from emp where sal = 
+(select max(sal) from emp where job="CLERK");
+
+
+
+
+
+/* 
+Write an SQL query to display allthe details of employee(s) who are in 
+sales department and grade is 3.
+
+Sample Output:
+-------------
+empno   ename   job         mgr     hiredate    sal      comm    deptno                                                  
+7844    KEVIN   SALESMAN    7698    1995-06-04  1500.00  0.00    30
+
+*/
+/*select * from emp;
+select * from dept;
+select * from salgrade;*/
+select * from emp e where deptno= 
+(select deptno from dept where dname="sales")
+having  sal >(select losal from salgrade where grade=3)
+and sal < (select hisal from salgrade where grade = 3);
+
+
