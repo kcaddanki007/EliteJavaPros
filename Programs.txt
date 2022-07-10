@@ -1,0 +1,138 @@
+Program-1:   https://www.geeksforgeeks.org/smallest-palindrome-replacement/
+-------------
+Write a function solution that, given a string S of length N, returns any palindrome which can be obtained by replacing all of the question marks in S by lowercase letters (a'-'z'). If no palindrome can be obtained, the function should return the string "NO". A palindrome is a string that reads the same both forwards and backwards. Some examples of palindromes are: "kayak", "radar", "mom".
+
+Examples:
+1. Given S="?ab??a", the function should return "aabbaa".
+
+2. Given S="bab??a", the function should return "NO".
+
+3. Given S="?a?", the function may return "aaa". It may also return "zaz", among other possible answers.
+
+Assume that:
+N is an integer within the range [1..1,000]; 
+string S consists only of lowercases letters ('a' - 'z') or '?'.
+__________________________________________________________________________________________________
+
+Program-2: https://leetcode.com/problems/the-number-of-full-rounds-you-have-played/
+--------------
+John has recently discovered an online game. In the game, a 15-minute round starts in each quarter-hour period, starting at times notated in the format HH: 00, HH:15, HH:30 or HH:45.we HH is a number from 00 to 23. John uses a 24-hour clock, so the earliest time is 00:00 and the latest is 23:59. 
+
+John starts playing at time A and ends at time B. If B is earlier than A, John has played overnight (from time A to midnight and from midnight to time B). What is the maximum number of full rounds that can be played by John?
+
+Write a function:
+class Solution {public int solution(String A, String B); }
+
+that, given two strings A and B (in HH:MM format), representing the start time and end time, returns an integer denoting the maximum number of full rounds that John can play within the given period of time.
+
+Examples:
+
+1. Given A= "12:01" and B= "12:44", the function should return 1. John can play only one round (from 12:15 to 12:30). He starts too late to play the round from 12:00 to 12:15 and he will not be able to finish the 12:30-12:45 round.
+2. Given A = 20:00" and B="06:00", the function should return 40. John can play 16 game rounds from 20:00 to 08:00 and 24 game rounds from 08:00 to 06:00 
+3. Given A= "80:00 and B= 23:59", the function should return 95. John can play four rounds every hour except for the last hour, in which he can play only three rounds (23:00-23:15, 23:15 23:30, 23:30-23:45). The next round would be 23:45-00:00 but John has to end 1 minute sooner, so he cannot take part in it.
+4. Given A = 12:03" and B="12:03", the function should return 0. John cannot play any round during an empty period of time.
+
+Assume that:
+strings A and B represent valid times in a HH:MM format.
+
+__________________________________________________________________________________________________
+
+Program-3:  https://leetcode.com/problems/minimum-number-of-buckets-required-to-collect-rainwater-from-houses/
+--------------
+Today our world is approaching an ecological crisis. Due to global warming, the sea level is rising. At the same time, the amount of drinkable water is decreasing. One idea about preventing the loss of drinkable water is the propagation of rainwater storage, i.e. equipping houses with a water tank for rainwater.
+
+You are given a string S describing a street, in which 'H' denotes a house and '-'denotes an empty plot. You may place water tanks in empty plots to collect rainwater from nearby houses. A house can collect its own rainwater if there is a tank next to it (on either the left or the right side).
+
+Your task is to find the minimum number of water tanks needed to collect rainwater from all of the houses.
+
+For example, given S="-H-HH--", you can collect rainwater from all three houses by using two water tanks. You can position one water tank between the first and second houses and the other after the third house. This placement of water tanks can be represented as '-HTHHT-", where 'T denotes a water tank.
+
+Write a function:
+
+class Solution ( public int solution(String S); }
+
+that, given a string S of length N, returns the minimum number of water tanks needed.
+
+If there is no solution, return -1.
+Examples:
+
+1. Given S="-H-HH--", the function should return 2, as explained above.
+
+ 2. Given S="H", the function should return-1. There is no available plot on
+which to place a water tank.
+
+3. Given S="HH-HH", the function should return-1. There is only one plot to put a water tank, and it is impossible to collect rainwater from the first and last houses.
+
+4. Given S="-H-H-H-H-H", the function should return 3. One possible way
+
+of placing water tanks is "-HTH-HTHTH".
+
+Assume that:
+
+• N is an integer within the range [1..20]; • string S consists only of the characters "-" and/or "H".
+
+In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
+__________________________________________________________________________________________________
+
+Program-4
+-------------
+given a function find_min(A) which sometimes returns an incorrect answer. produce an array A of size N for which the function find_min(A) returns an incorrect answer.
+
+function definition:
+
+
+  int find_min(int[] A) {
+    int ans = 0;
+
+    for(int i=1; i<A.length; i++) {
+      if(A[i] < ans) ans = A[i];
+    }
+
+    return ans;
+  }
+
+__________________________________________________________________________________________________
+
+Program-5
+--------------
+Magic Square matrix, the matrix whose row sums, column sums, diagonal sum are equal.
+   given a matrix find the largest magic square sub matrix size and return it. 
+
+__________________________________________________________________________________________________
+
+Program-6
+-------------
+Given a string and value k, return the largest possible trimmed string whose length is at most k.  
+Note: after trimming the string, individual words should not get split and trimmed string should not end with space.
+ex: if input is "hello this is nikhil" and k is 16
+then we should return "hello this is" but not "hello this is ni" because we should not separate individual words.
+
+__________________________________________________________________________________________________
+
+Program-7 : https://www.geeksforgeeks.org/smallest-substring-occurring-only-once-in-a-given-string/
+--------------
+Find the length of the shortest unique substring in a string. Eg if string is aababbbabbab, answer is 2 as 'aa' is the smallest unique substring.
+
+__________________________________________________________________________________________________
+
+Program-8
+-------------
+You will be given a list of names, A (array of strings) and their numbers, B (array of strings, each element length is 9). 
+You will also be given a string S, which is a number. The task is to return the name of the person whose phone number consists of String S.
+If there are multiple numbers containing S, return the lexicographically smallest name. If there's no number, return "NO CONTACT".
+Example - A = ["ann","amy","sander","michael"]
+                 B = ["123456789", "287362847", "283746901", "903827938"]
+                 S = "1"
+                 ANSWER - Both ann and sander have S in them, as ann is lexicographically smaller, return ann.
+
+                 A = ["ann","amy","sander","michael"]
+                 B = ["123456789", "287362847", "283746901", "903827938"]
+                 S = "475839"
+                 ANSWER - "NO CONTACT"
+
+                 A = ["ann","amy","sander","michael"]
+                 B = ["123456789", "287362847", "283746901", "903827938"]
+                 S = "38279"
+                 ANSWER - "michael"
+___________________________________________________________________________________________
+

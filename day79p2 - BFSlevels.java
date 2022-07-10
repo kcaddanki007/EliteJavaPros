@@ -68,57 +68,50 @@ So, the maximum number of floors of a building is 3.
 */
 
 import java.util.*;
-
-class Solution
-{
-    static int max = Integer.MIN_VALUE;
-    public static void main(String args[])
-    {
+class Solution{
+    static int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+    public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
-        int m = sc.nextInt();
-        int n = sc.nextInt();
-        ArrayDeque<int[]> q = new ArrayDeque<>();
-        boolean vis[][] = new boolean[m][n];
-        for(int i=0;i<m;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                int x = sc.nextInt();
-                if(x==1)
-                {
-                    q.offerLast(new int[]{i,j});
-                    vis[i][j]=true;
-                }
-            }
-        }
-        System.out.println(getMaxFloorHeight(q,vis,m,n));
+        int r = sc.nextInt(), c = sc.nextInt();
+        int[][] land = new int[r][c];
+        for(int i=0;i<r;i++)
+            for(int j=0;j<c;j++)
+              land[i][j] = sc.nextInt();
+              
+        System.out.println(BFS(land,r,c));
     }
-    public static int getMaxFloorHeight(ArrayDeque<int[]> q,boolean[][] vis,int m,int n)
-    {
+    static int BFS(int[][] land,int r,int c){
         int count=-1;
-        int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
-        while(!q.isEmpty())
-        {
-            int len = q.size();
-            while(len>0)
-            {
-                len--;
-                int temp[] = q.pollFirst();
-                int x = temp[0];
-                int y = temp[1];
-                for(int a[] : dirs)
-                {
-                    int new_X = a[0]+x;
-                    int new_Y = a[1]+y;
-                    if(new_X>=0 && new_X<m && new_Y>=0 && new_Y<n && !vis[new_X][new_Y])
-                    {
-                        vis[new_X][new_Y]=true;
-                        q.offerLast(new int[]{new_X,new_Y});
+        boolean vis[][] = new boolean[r][c];
+        ArrayDeque<int[]> adq = new ArrayDeque<>();
+        
+        for(int i=0;i<r;i++)
+          for(int j=0;j<c;j++)
+            if(land[i][j]==1){
+                adq.offer(new int[]{i,j});
+                vis[i][j] = true;
+            }
+        
+        while(!adq.isEmpty()){
+            int adqsize = adq.size();
+            count++;
+            for(int i=0;i<adqsize;i++){
+                int[] curr = adq.poll();
+                for(int[] d : dirs){
+                    int x = curr[0]+d[0];
+                    int y = curr[1]+d[1];
+                    if(isPoss(x,y,r,c,vis)){
+                        adq.offer(new int[]{x,y});
+                        vis[x][y] = true;
                     }
                 }
             }
-            count++;
         }
         return count;
+          
+    }
+    static boolean isPoss(int i,int j,int r,int c,boolean[][] vis){
+        if(i<0 || i>=r || j<0 || j>=c || vis[i][j]) return false;
+        else return true;
     }
 }

@@ -196,3 +196,148 @@ having  sal >(select losal from salgrade where grade=3)
 and sal < (select hisal from salgrade where grade = 3);
 
 
+
+/*
+Write an SQL query to display all the details of employees
+who are not working as managers.
+
+**Output**
+
+empno   ename   job         mgr     hiredate        sal         comm    deptno
+7369    SMITH   CLERK       7902    1993-06-13      800.00      0.00    20
+7934    FORD    CLERK       7782    2000-01-21      1300.00     NULL    10
+
+*/
+select * from emp where empno not in (select mgr from emp where mgr is not null);
+
+### 2
+
+/*
+write an sql query to display the empno, ename, sal, dname of the employees
+who is working as either 'MANAGER' or 'ANALYST' in ‘New York’ or ‘Dallas’
+and display in descending order of name.
+
+**Output**
+
+empno   ename   sal      dname
+7788    SCOTT   3000.00  Research
+7782    CLARK   2450.00  Accounting
+
+*/
+/*select * from emp;
+select * from dept;*/
+select e.empno, e.ename, e.sal, d.dname
+from emp e, dept d
+where e.deptno=d.deptno AND (e.job='MANAGER' OR e.job='ANALYST')
+AND (d.location='New York' OR d.location='Dallas') order by e.ename desc;
+
+### 3
+
+/*Write an SQL query to display all the details of employees who are in sales dept
+and grade is 3.
+
+**Sample Output:**
+
+empno   ename   job       mgr     hiredate      sal      comm    deptno
+7698    BLAKE   MANAGER   7839    1992-06-11    2850.00  NULL    30
+
+*/
+
+select * from emp where sal>=(select losal from salgrade where grade=3) and sal<=(select hisal from salgrade where grade=3) and deptno=(select deptno from dept where dname='SALES');
+
+/*
+Write an SQl query to display the department number, minimum salary,
+maximum salary of each department.
+
+## Sample Output:
+
+deptno  min_salary  max_salary
+10      1300.00     2450.00
+
+- /
+
+select deptno ,min(sal) as min_salary, max(sal) as max_salary from emp group by deptno;
+
+/*
+Write a SQL query to display names of employee and their annual salary as
+‘annual_salary’ of the employees, whose annual_salary is greater than 30000
+
+## Sample Output:
+
+ename   annual_salary
+JONES   35700.00
+FORD    36000.00
+
+*/
+select ename, sal*12 as annual_salary from emp where sal*12>30000;
+
+/*
+Write a SQL query to display the names of the employees who earn highest salary
+in their respective departments.
+
+## Sample Output:
+
+ename   salary
+BLAKE   2850.00
+FORD    3000.00
+
+- /
+select ename, sal as salary from emp e where e.sal = (select max(sal) from emp e1 where e1.deptno=e.deptno);
+
+
+
+
+
+
+/* 
+Write an SQL query to list the empno,ename,hiredate,curr_date  & exp in 
+the ascending order of the exp [Experience in years].
+
+Sample Output:
+-------------
+empno   ename   hiredate        curr_date       exp                                                                     
+7900    JAMES   2000-06-23      2022-06-22      21                                                                      
+7934    FORD    2000-01-21      2022-06-22      22 
+
+*/
+/*select * from emp;*/
+select empno,ename,hiredate,curdate() as curr_date,(floor(datediff(curdate(),hiredate)/365)) as exp from emp order by exp;
+
+
+
+
+
+/* 
+Write an SQL query to list the empno,ename,annual_sal,daily_sal of all 
+the salesmen in the ascending order of their annual_sal
+
+Sample Output:
+-------------
+empno   ename   annual_sal      daily_sal                                                                               
+7521    ALLEN   15000.00        41.095890                                                                               
+7654    MARTIN  15000.00        41.095890
+
+*/
+select empno, ename, (sal*12) as annual_sal, ((sal*12)/365) as daily_sal from emp where job="SALESMAN" order by annual_sal;
+
+
+
+
+
+
+/* 
+Write an SQL query to list the ename and salary of the 5th highest paid employee
+
+Sample Output:
+-------------
+ename   sal                                                                                                             
+CLARK   2450.00
+
+*/
+select ename,sal from emp order by sal DESC limit 5,1;
+
+
+
+
+
+
