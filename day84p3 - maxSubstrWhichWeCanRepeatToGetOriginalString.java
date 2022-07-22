@@ -23,8 +23,8 @@ abcab
 
 Sample Input-2:
 ---------------
-ababab ababab ababab
-ababab ababab ababab
+ababababababababab
+ababab
 
 Sample Output-2:
 ----------------
